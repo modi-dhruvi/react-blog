@@ -37,7 +37,6 @@ function Signup() {
         setTimeout(() => {
           navigate('/')
         }, 3000)
-        // navigate('/')
       } catch (error) {
         setLoading(false)
         setError(`Failed to create an account ${error.message}`)
@@ -55,7 +54,6 @@ function Signup() {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4 app-title-font">Sign Up</h2>
-              {/* {currentUser.email} */}
               {error && <Alert variant="danger">{error}</Alert>}
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" id="email">

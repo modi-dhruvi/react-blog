@@ -8,9 +8,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Constants from '../../common/constants';
 import gifImg from '../../open-book.gif'
-import { collection, getDocs } from 'firebase/firestore'
-import { db, auth } from '../../common/firebase'
-import img from '../../openBook.png'
 import { useSelector } from 'react-redux';
 
 export default function Header() {
@@ -22,13 +19,6 @@ export default function Header() {
 
     useEffect(() => {
         setCategoriesList(categoriesStoreData)
-        const categoriesCollectionRef = collection(db, "categories")
-        const getCategories = async () => {
-            const data = await getDocs(categoriesCollectionRef)
-            // console.log('data: ', data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            setCategoriesList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-        }
-        // getCategories()
     }, [categoriesStoreData])
 
     const handleCategoryClick = (category) => {
@@ -40,7 +30,6 @@ export default function Header() {
             await logout()
             navigate('/')
         } catch (error) {
-            // setError('Failed to log out')
         }
     }
     return (
@@ -58,8 +47,6 @@ export default function Header() {
                                     )
                                 })
                             }
-
-                            {/* <NavDropdown.Item to="#action4">Sql Server</NavDropdown.Item> */}
                         </NavDropdown>
 
                         {!loggedInAs?.includes(Constants.Guest) && <Link className='custom-link mx-3' to="/createpost">Post</Link>}

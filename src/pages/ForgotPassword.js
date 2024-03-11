@@ -38,7 +38,6 @@ function ForgotPassword() {
                     <Card>
                         <Card.Body>
                             <h2 className="text-center mb-4">Password Reset</h2>
-                            {/* {currentUser.email} */}
                             {error && <Alert variant="danger">{error}</Alert>}
                             {messge && <Alert variant="success">{messge}</Alert>}
                             <Form onSubmit={handleSubmit}>

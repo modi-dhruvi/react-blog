@@ -28,21 +28,12 @@ function Login() {
             setTimeout(() => {
                 navigate('/')
             }, 3000)
-            // navigate('/')
         } catch (error) {
             setLoading(false)
             setError(`Failed to sign in ${error.message}`)
             console.log(error)
         }
         setLoading(false)
-        // signInWithPopup(auth, provider).then((result) => {
-        //     const user = result.user
-        //     const accessToken = user.accessToken
-        //     const email = user.email
-        //     const displayName = user.displayName
-        //     const stsTokenManager = user.stsTokenManager
-        //     console.log(result)
-        // }).catch((error) => console.log(error))
     }
 
     async function handleSubmit(e) {
@@ -56,7 +47,6 @@ function Login() {
             setTimeout(() => {
                 navigate('/')
             }, 3000)
-            // navigate('/')
         } catch (error) {
             setLoading(false)
             setError(`Failed to sign in ${error.message}`)
@@ -73,7 +63,6 @@ function Login() {
                     <Card>
                         <Card.Body>
                             <h2 className="text-center mb-4 app-title-font">Log In</h2>
-                            {/* {currentUser.email} */}
                             {error && <Alert variant="danger">{error}</Alert>}
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" id="email">

@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { Card, Container } from "react-bootstrap"
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../common/firebase'
 import Stack from 'react-bootstrap/Stack'
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 export default function PendingPosts() {
     const [postList, setPostList] = useState([])
-    const postsCollectionRef = collection(db, "posts")
-
     const navigate = useNavigate()
-
     const posts = useSelector(state => state.posts.postsList)
     
     useEffect(() => {
         const getPosts = async () => {
-            // const data = await getDocs(postsCollectionRef)
-            // console.log('data: ', data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             const data = posts
             setPostList(data.filter(doc => doc.status === 'pending'))
         }
@@ -31,7 +24,6 @@ export default function PendingPosts() {
         return str
     }
     
-    // console.log('posts', postList)
     return (
         <>
             <Container className="d-flex align-items-center justify-content-center pb-5">
@@ -58,20 +50,6 @@ export default function PendingPosts() {
                             })
                         }
                     </Stack>
-
-                    {/* <Stack direction="horizontal" gap={5} className="flex-wrap">
-                        {
-                            postList && postList.map((post) => {
-                                return <Card border="secondary" className="mb-2 shadow" style={{ height: '20rem', width: '18rem' }} key={post.id} onClick={() => navigate('/postdetails', { state: { ...post, isFromPendingPost: true } })}>
-                                    <Card.Header as='h5' className="text-center">{post.postTitle}</Card.Header>
-                                    <Card.Body style={{ maxHeight: '16rem', overflow: 'hidden', textOverflow: 'ellipsis' }}> */}
-                    {/* <Card.Title className="text-center mb-4">{post.postTitle}</Card.Title> */}
-                    {/* <Card.Text style={{ textAlign: 'justify' }}>{post.postText}</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            })
-                        }
-                    </Stack> */}
                 </div>
             </Container>
         </>
