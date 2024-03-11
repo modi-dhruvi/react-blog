@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import Constants from '../common/constants'
 
@@ -16,7 +16,6 @@ function PrivateRoute({ children }) {
 
 function CustomPrivateRoute({ children }) {
     const { currentUser, loggedInAs } = useAuth()
-    // console.log(currentUser, "   ", loggedInAs)
 
     if (!currentUser || !loggedInAs.includes(Constants.Admin)) {
         return <Navigate to='/login' />

@@ -20,17 +20,12 @@ import { useLocation } from 'react-router-dom'
 
 function AppRoutes({ isLoading }) {
     const location = useLocation()
-    // console.log('location ', location.pathname)
     const { pathname } = location
     const hideSubscribeAndFooter = ['/login', '/update-profile', '/signup', '/forgot-password'].includes(pathname);
 
     return (
         <div>
-            {/* Conditional rendering of Header (navigation bar) */}
-            {/* {!isLoading && } */}
-            {/* Conditional rendering of Loader component */}
             {isLoading && <Spinner />}
-            {/* Actual content */}
             {!isLoading && (
                 <div>
                     <Header />
@@ -39,17 +34,13 @@ function AppRoutes({ isLoading }) {
                         <Route path="/createpost" element={<PrivateRoute><AddEditPost IsEdit={false} /> </PrivateRoute>} />
                         <Route path="/editpost" element={<PrivateRoute> <AddEditPost IsEdit={true} /> </PrivateRoute>} />
                         <Route path="/category-wise-posts/:categoryName" element={<CategoryWisePosts />} />
-                        <Route path="/postdetails/:id" element={<PrivateRoute><PostDetails /></PrivateRoute>} />
+                        <Route path="/postdetails/:id" element={<PostDetails />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/forgot-password" element={<PrivateRoute><ForgotPassword /></PrivateRoute>} />
                         <Route path="/update-profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>} />
                         <Route path="/pending-posts" element={<CustomPrivateRoute><PendingPosts /></CustomPrivateRoute>} />
                     </Routes>
-                    {
-                        // !location.pathname && (!location.pathname.includes('login') && !location.state.includes('update-profile')) && <> <Subscribe /> <Footer /></>
-                    }
-                    {/* <Subscribe /> */}
                     {!hideSubscribeAndFooter && <Subscribe />}
                     {!hideSubscribeAndFooter && <Footer />}
                 </div>

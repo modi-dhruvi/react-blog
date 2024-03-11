@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Container, Button } from "react-bootstrap"
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Card, Container } from "react-bootstrap"
+import { useNavigate, useParams } from 'react-router-dom'
 import Stack from 'react-bootstrap/Stack'
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
-// import editIcon from '../pen.png'
-// import deleteIcon from '../bin.png'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../common/firebase'
-import { collection, getDoc, getDocs } from 'firebase/firestore'
 import { useAuth } from '../hooks/useAuth'
 import Constants from '../common/constants'
 import parse from 'html-react-parser'
-import cardImage from '../category-net-core-2.jpg'
-import user from '../user-1.png'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import editIcon from '../pen.png'
-import deleteIcon from '../bin.png'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import userGif from '../presentation.gif'
 import editGifIcon from '../edit.gif'
 import deleteGifIcon from '../bin.gif'
@@ -28,7 +21,6 @@ import 'react-toastify/dist/ReactToastify.css'
 export default function PostDetails() {
     const [postDetail, setPostDetail] = useState({})
     const [recentPosts, setRecentPosts] = useState([])
-    const location = useLocation()
     const navigate = useNavigate()
     const { id } = useParams()
     const { loggedInAs } = useAuth()
@@ -36,29 +28,19 @@ export default function PostDetails() {
     var day, year, stringWithBreaks;
     const postsData = useSelector(state => state.posts.postsList)
     const [updateBlog] = useUpdateBlogMutation()
-    // console.log('id', id)
 
     useEffect(() => {
         window.scrollTo(0, 0)
         const fetchPost = async () => {
-            // const postsCollectionRef = doc(db, "posts", id)
-            // const postsSnapshot = await getDoc(postsCollectionRef);
-
-            // const postsCollectionRef = collection(db, "posts")
-            // const postsSnapshot = await getDocs(postsCollectionRef);
-
-            // const postsData = postsSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
             const singlePostDetail = postsData.find(post => post.id == id)
             const top3Posts = postsData.filter(post => post.id != id).sort((a, b) => b.lastEdited - a.lastEdited).slice(0, 3);
             setRecentPosts(top3Posts)
-            // const postsData = postsSnapshot.data();
             setPostDetail(singlePostDetail)
         }
 
         fetchPost()
     }, [id])
-    // console.log('details post', postDetail)
-    // console.log('recent post', recentPosts)
+
     if (postDetail) {
         const postDate = new Date(postDetail?.lastEdited)
         monthAbbreviation = postDate?.toLocaleDateString('en-US', { month: 'short' });
@@ -85,16 +67,12 @@ export default function PostDetails() {
         await updateBlog([postDetail.id, {
             status: 'approved'
         }])
-        // await updateDoc(postDocRef, {
-        //     status: 'approved'
-        // })
+
         toast.success("Post approved successfully", { autoClose: 3000 })
         setTimeout(() => {
             navigate('/pending-posts')
         }, 3000)
     }
-
-    // console.log('location : ', location)
 
     return (
         <>
@@ -114,10 +92,6 @@ export default function PostDetails() {
                         <Col className="d-flex align-items-center"><img className='header-gif-image' height='50px' width='50px' src={userGif} style={{ marginRight: '12px' }} />
                             {`${postDetail?.author?.name} - ${monthAbbreviation} ${day} ${year} - 1 min read`}
                         </Col>
-
-                        {/* <Col></Col>
-                        <Col> - Mar 22, 2023 - </Col>
-                        <Col> 1 min read</Col> */}
                     </Row>
 
                     <h2 className='mt-4 app-title-font'>{postDetail.postTitle}</h2>
@@ -145,16 +119,14 @@ export default function PostDetails() {
                             recentPosts && recentPosts.map((post) => {
                                 return (
                                     <Card key={post.id} className='border-0' style={{ height: '350px', width: '350px' }}>
-                                        <Card.Img variant="top" src={post.image} height='230px' width='420px' />
+                                        <Card.Img variant="top" src={post.image} height='210px' width='420px' />
                                         <Card.Body style={{ cursor: 'pointer' }} onClick={() => navigate(`/postdetails/${post.id}`)}>
                                             <Card.Title className="text-center fs-5">{post.postTitle}</Card.Title>
                                         </Card.Body>
-                                        {/* <hr/> */}
                                     </Card>
                                 )
                             })
                         }
-
                     </Stack>
                 </div>
             </Container>
